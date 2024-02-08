@@ -1,23 +1,26 @@
+import { Badge, Card, Descriptions } from "antd";
+import React from "react";
+import { items } from "./constants";
 import "./App.css";
-import platform from "platform";
 
-function App() {
-  console.log("Platform", platform);
+const App = () => {
+  const normalizeItems = items.map((item) =>
+    item.children ? item : { ...item, children: "-" }
+  );
+
+  const validValues = normalizeItems.filter(
+    (item) => item.children !== "-"
+  ).length;
+
   return (
     <div className="App">
-      <h1>Your OS Details </h1>
-      <h3>{"Tostring: " + platform.toString()}</h3>
-      <h3>{"OS: " + platform.os.toString()}</h3>
-      <h3>{"Browser: " + platform.name}</h3>
-      <h3>{"Version: " + platform.version}</h3>
-      <h3>{"Description: " + platform.description}</h3>
-      <h3>{"Layout: " + platform.layout}</h3>
-      <h3>{"Product: " + platform.product}</h3>
-      <h3>{"Manufacturer: " + platform.manufacturer}</h3>
-      <h3>{"Kernal: " + platform.kernal}</h3>
-      <h3>{"ua: " + platform.ua}</h3>
+      <Badge count={validValues}>
+        <Card title="Operating system and browser details" bordered="">
+          <Descriptions title="Attributes" items={normalizeItems} />
+        </Card>
+      </Badge>
     </div>
   );
-}
+};
 
 export default App;
